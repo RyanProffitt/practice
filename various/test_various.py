@@ -5,6 +5,8 @@
 from fibonacci import fib_recursive
 from fibonacci import FibMemoized
 
+from satellite_pass_tools import get_max_necessary_bandwidth
+
 _fib_val_dict = {
     0:0,
     1:1,
@@ -75,3 +77,48 @@ def test_fib_memoized():
         _assert_fib_val_using_dict(34, my_fib.fib(35))
     except AssertionError:
         pass # Failed successfully
+
+def test_get_max_necessary_bandwidth():
+    sample_pass_schedule = [
+        [0,2,4,10],
+        [1,3,5,20],
+        [2,4,5,30],
+        [1,6,10,40],
+        [2,12,20,50],
+        [1,14,16,100],
+        [0,17,19,150]
+    ]
+
+    assert get_max_necessary_bandwidth(sample_pass_schedule) == 200
+
+    sample_pass_schedule = [
+        [0,1619946610000,1619947090000,14],
+        [1,1619946730000,1619947210000,28],
+        [2,1619946010000,1619946310000,14],
+        [1,1619947330000,1619947680000,7],
+        [2,1619947530000,1619947830000,14],
+        [1,1619948270000,1619948810000,7],
+        [0,1619948410000,1619948530000,12]
+    ]
+
+    assert get_max_necessary_bandwidth(sample_pass_schedule) == 42
+
+    sample_pass_schedule = [
+        [0,1619946610000,1619947090000,14],
+        [1,1619947090000,1619947190000,28],
+        [2,1619947090000,1619947190000,28],
+    ]
+
+    assert get_max_necessary_bandwidth(sample_pass_schedule) == 56
+
+    sample_pass_schedule = []
+
+    assert get_max_necessary_bandwidth(sample_pass_schedule) == 0
+
+    sample_pass_schedule = [
+        [0,1619946610000,1619947090000,14]
+    ]
+
+    assert get_max_necessary_bandwidth(sample_pass_schedule) == 14
+
+test_get_max_necessary_bandwidth()
